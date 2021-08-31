@@ -7,7 +7,7 @@ import os
 
 def get_data(list_of_classes):
     for cls in list_of_classes:
-        if not os.path.exists(cls + FILE_EXT):
+        if os.path.exists(cls + FILE_EXT):
             continue
         storage_client = storage.Client.create_anonymous_client()
         bucket = storage_client.bucket(BUCKET)
