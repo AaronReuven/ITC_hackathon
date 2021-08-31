@@ -1,12 +1,10 @@
-import pandas as pd
-import numpy as np
 import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report
-from extract_data import get_data, mush_into_dataframe
-from config import *
+from model_creation_code.extract_data import get_data, mush_into_dataframe
+from model_creation_code.config import *
 
 
 def read_data():

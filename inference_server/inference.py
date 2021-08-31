@@ -2,10 +2,9 @@ import pickle
 
 import flask
 import os
-from config import *
+from model_creation_code.config import *
 import pandas as pd
-import numpy as np
-from flask import Flask, request
+from flask import Flask
 import json
 
 app = Flask(__name__)
