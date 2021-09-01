@@ -60,13 +60,13 @@ def read_model():
 
 
 def main():
-    # model = read_model()
-    # return model
-    pass
+    model = read_model()
+    return model
+    # pass
 
 
 if __name__ == '__main__':
-    # model = main()
+    model = main()
     # port = os.environ.get('PORT')
     # if port:
     #     # 'PORT' variable exists - running on Heroku, listen on external IP and on given by Heroku port
