@@ -36,6 +36,9 @@ def predict_bulk():
 #         model = read_model(MODEL_FILE)
 #     return str(
 #         model.predict(np.array([float(num) for num in request.args.values()]).astype(dtype=float).reshape(1, -1))[0])
+@app.route('/hi')
+def hi():
+    return 'hi'
 
 
 def read_model():
@@ -57,12 +60,13 @@ def read_model():
 
 
 def main():
-    model = read_model()
-    return model
+    # model = read_model()
+    # return model
+    pass
 
 
 if __name__ == '__main__':
-    model = main()
+    # model = main()
     # port = os.environ.get('PORT')
     # if port:
     #     # 'PORT' variable exists - running on Heroku, listen on external IP and on given by Heroku port
