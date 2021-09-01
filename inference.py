@@ -62,6 +62,7 @@ def read_model(file):
 
 
 def main():
+    print(os.path.abspath(MODEL_FILE))
     model = read_model(os.path.abspath(MODEL_FILE))
     return model
     # pass
