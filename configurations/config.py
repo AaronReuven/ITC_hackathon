@@ -13,4 +13,4 @@ MODEL_FILE = 'model/draw_model.pkl'
 
 # REST API
 RESULT_JSON_TAG = 'result'
-URL_BULK = 'https://itc-exercise.herokuapp.com/predict_churn_bulk'
+URL_BULK = 'https://itc-hackathon.herokuapp.com/predict_drawing'
