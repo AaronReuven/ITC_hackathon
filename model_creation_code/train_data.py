@@ -1,6 +1,8 @@
 import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import BernoulliNB
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report
 from model_creation_code.extract_data import get_data, mush_into_dataframe
@@ -27,7 +29,9 @@ def preprocess(X_train, X_test, y_train, y_test):
 
 
 def train_model(x, y):
-    clf = BernoulliNB(binarize=0)
+    # clf = BernoulliNB(binarize=0)
+    # clf = LogisticRegression(random_state=RANDOM_STATE)
+    clf = RandomForestClassifier(random_state=RANDOM_STATE)
     clf.fit(x, y)
     return clf
 
