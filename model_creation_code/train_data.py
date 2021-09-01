@@ -31,7 +31,7 @@ def preprocess(X_train, X_test, y_train, y_test):
 def train_model(x, y):
     # clf = BernoulliNB(binarize=0)
     # clf = LogisticRegression(random_state=RANDOM_STATE)
-    clf = RandomForestClassifier(random_state=RANDOM_STATE)
+    clf = RandomForestClassifier(random_state=RANDOM_STATE,max_depth=10)
     clf.fit(x, y)
     return clf
 
