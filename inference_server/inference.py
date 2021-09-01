@@ -2,7 +2,7 @@ import pickle
 
 import flask
 import os
-from model_creation_code.config import *
+from configurations.config import *
 import pandas as pd
 from flask import Flask
 import json
