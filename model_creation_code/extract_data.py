@@ -12,6 +12,8 @@ def get_data(list_of_classes):
         storage_client = storage.Client.create_anonymous_client()
         bucket = storage_client.bucket(BUCKET)
         blob = bucket.blob(OBJECT_PATH + cls + FILE_EXT)
+        if not os.path.exists(DATA_PATH):
+            os.mkdir(DATA_PATH)
         blob.download_to_filename(DATA_PATH + cls + FILE_EXT)
 
 
