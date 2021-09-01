@@ -18,7 +18,7 @@ def predict_bulk():
     :return: json of predictions
     """
     if 'model' not in globals():
-        model = read_model()
+        model = read_model(os.path.abspath(MODEL_FILE))
     predict_data = json.loads(flask.request.get_json())
     predict_df = pd.DataFrame(predict_data)
     results = model.predict(predict_df)
