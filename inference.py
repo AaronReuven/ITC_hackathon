@@ -21,11 +21,11 @@ def predict_bulk():
         model = read_model(os.path.abspath(MODEL_FILE))
     predict_data = json.loads(flask.request.get_json())
     # return predict_data
-    return 'can load'
-    # predict_df = pd.DataFrame(predict_data)
-    # results = model.predict(predict_df)
-    # result = {RESULT_JSON_TAG: results.tolist()}
-    # return flask.jsonify(result)
+    # return 'can load'
+    predict_df = pd.DataFrame(predict_data)
+    results = model.predict(predict_df)
+    result = {RESULT_JSON_TAG: results.tolist()}
+    return flask.jsonify(result)
 
 
 # @app.route('/predict_drawing')
