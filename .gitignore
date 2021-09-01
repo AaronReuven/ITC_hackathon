@@ -1,2 +1,3 @@
-/model_creation_code/extract_data.py
-/model_creation_code/train_data.py
+/fetched_data/
+/model_creation_code/
+/EDA/
