@@ -1,2 +1,2 @@
-# web: python inference_server/inference.py
-web: gunicorn inference_server/inference:app
+# web: python inference.py
+web: gunicorn inference:app
