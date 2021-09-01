@@ -1,7 +1,8 @@
 import pickle
-
 import flask
 import os
+# from boto3.session import Session
+import boto3
 from configurations.config import *
 import pandas as pd
 from flask import Flask
@@ -17,7 +18,7 @@ def predict_bulk():
     :return: json of predictions
     """
     if 'model' not in globals():
-        model = read_model(MODEL_FILE)
+        model = read_model()
     predict_data = json.loads(flask.request.get_json())
     predict_df = pd.DataFrame(predict_data)
     results = model.predict(predict_df)
@@ -37,20 +38,26 @@ def predict_bulk():
 #         model.predict(np.array([float(num) for num in request.args.values()]).astype(dtype=float).reshape(1, -1))[0])
 
 
-def read_model(file):
+def read_model():
     """
     reads the model from file
     :param file: file to read the model from
     :return: trained model from file
     """
+
+    if not os.path.exists(DOWNLOAD_MODEL_PATH):
+        os.mkdir(DOWNLOAD_MODEL_PATH)
+    s3 = boto3.resource('s3', aws_access_key_id=ACCESS_ID, aws_secret_access_key=ACCESS_KEY)
+    s3.meta.client.download_file(DRAW_BUCKET, S3_MODEL_FILE, os.path.abspath(DOWNLOAD_MODEL_PATH) + '/' + S3_MODEL_FILE)
+
     model = None
-    with open(file, 'rb') as f:
+    with open(os.path.abspath(DOWNLOAD_MODEL_PATH) + '/' + S3_MODEL_FILE, 'rb') as f:
         model = pickle.load(f)
     return model
 
 
 def main():
-    model = read_model(MODEL_FILE)
+    model = read_model()
     return model
 
 
