@@ -20,10 +20,11 @@ def predict_bulk():
     if 'model' not in globals():
         model = read_model(os.path.abspath(MODEL_FILE))
     predict_data = json.loads(flask.request.get_json())
-    predict_df = pd.DataFrame(predict_data)
-    results = model.predict(predict_df)
-    result = {RESULT_JSON_TAG: results.tolist()}
-    return flask.jsonify(result)
+    return predict_data
+    # predict_df = pd.DataFrame(predict_data)
+    # results = model.predict(predict_df)
+    # result = {RESULT_JSON_TAG: results.tolist()}
+    # return flask.jsonify(result)
 
 
 # @app.route('/predict_drawing')
