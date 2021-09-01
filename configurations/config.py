@@ -16,6 +16,7 @@ MODEL_FILE = 'model/draw_model.pkl'
 # REST API
 RESULT_JSON_TAG = 'result'
 URL_BULK = 'https://itc-hackathon.herokuapp.com/predict_drawing'
+URL_TEST = 'https://ec2-3-70-29-25.eu-central-1.compute.amazonaws.com/predict_drawing/'
 
 # S3 bucket
 S3_MODEL_FILE = 'draw_model.pkl'
