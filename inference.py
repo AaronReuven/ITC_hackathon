@@ -74,4 +74,4 @@ if __name__ == '__main__':
     # else:
     #     'PORT' variable doesn't exist, running not on Heroku, presumabely running locally, run with default
     #       values for Flask (listening only on localhost on default Flask port)
-    app.run(port=80)
+    app.run()
