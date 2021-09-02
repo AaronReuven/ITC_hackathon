@@ -9,11 +9,14 @@ import numpy as np
 from configurations.config import *
 import pandas as pd
 from flask import Flask
+from flask_cors import CORS, cross_origin
 import json
 from PIL import Image
 import skimage
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 def read_new_image(image_file_name):
@@ -38,30 +41,31 @@ model = read_model(os.path.abspath(MODEL_FILE))
 
 
 @app.route('/predict_drawing', methods=['POST'])
+@cross_origin()
 def predict_bulk():
     """
     runs the predictions on the model of dataframe passed as json
     :return: json of predictions
     """
-    r = flask.request.get_json()
-    print(r)
-    predict_data = json.loads(r)
-    print(predict_data)
-    b_srt = predict_data[22:]
-    base64_img_bytes = b_srt.encode('utf-8')
-    with open('decoded_image.png', 'wb') as file_to_save:
-        decoded_image_data = base64.decodebytes(base64_img_bytes)
-        file_to_save.write(decoded_image_data)
+    # r = flask.request.get_json()
+    # print(r)
+    # predict_data = json.loads(r)
+    # print(predict_data)
+    # b_srt = predict_data[22:]
+    # base64_img_bytes = b_srt.encode('utf-8')
+    # with open('decoded_image.png', 'wb') as file_to_save:
+    #     decoded_image_data = base64.decodebytes(base64_img_bytes)
+    #     file_to_save.write(decoded_image_data)
+    #
+    # img = Image.open('decoded_image.png').convert('1').resize((28, 28))
+    # img.save('x_pred.jpg')
+    #
+    # x_pred = read_new_image('x_pred.jpg')
+    # predict_df = pd.DataFrame(np.array([x_pred]))
 
-    img = Image.open('decoded_image.png').convert('1').resize((28, 28))
-    img.save('x_pred.jpg')
-
-    x_pred = read_new_image('x_pred.jpg')
-    predict_df = pd.DataFrame(np.array([x_pred]))
-
-    # r = flask.request.data
-    # nparr = np.fromstring(r,np.uint8)
-    # predict_df = pd.DataFrame(nparr)
+    r = flask.request.data
+    nparr = np.fromstring(r,np.uint8)
+    predict_df = pd.DataFrame(nparr)
     results = model.predict_proba(predict_df)
     result = {RESULT_JSON_TAG: results.tolist()}
     return flask.jsonify(result)
