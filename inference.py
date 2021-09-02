@@ -44,20 +44,21 @@ def read_model(file):
 
 model = read_model(os.path.abspath(MODEL_FILE))
 
+
 @app.route("/predict_drawing", methods=["POST"])
 @cross_origin(supports_credentials=True)
 def json():
     if flask.request.is_json:
         try:
             req = flask.request.get_json()
-            dic_letters = {i: letter for i, letter in enumerate(string.ascii_uppercase)}
+            # dic_letters = {i: letter for i, letter in enumerate(string.ascii_uppercase)}
             row = fix_input_image(req.get("data"))
 
             # letter, certain = dic_letters[clf.predict(row)[0]], clf.predict_proba(np.max(row))
 
             return flask.make_response(flask.jsonify({'letter': row, 'certain': 'certain'}), 200)
         except Exception as ex:
-            return flask.make_response(flask.jsonify({'error': ex}), 500)
+            return flask.make_response(flask.jsonify({'error': str(ex)}), 500)
 
         # return make_response(jsonify({'error': 'asa'}), 500)
     else:
@@ -92,6 +93,7 @@ def json():
 #     results = model.predict_proba(predict_df)
 #     result = {RESULT_JSON_TAG: results.tolist()}
 #     return flask.jsonify(result)
+
 
 def fix_input_image(str_img):
     image = Image.open(io.BytesIO(base64.urlsafe_b64decode(str_img)))
