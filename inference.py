@@ -45,7 +45,7 @@ def predict_bulk():
     # return predict_data
     # return 'can load'
     predict_df = pd.DataFrame(predict_data)
-    results = model.predict(predict_df)
+    results = model.predict_proba(predict_df)
     result = {RESULT_JSON_TAG: results.tolist()}
     return flask.jsonify(result)
 
