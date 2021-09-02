@@ -49,9 +49,9 @@ def predict_bulk():
     """
     r = flask.request.get_data()
     # print(r)
-    predict_data = json.loads(r)
+    # predict_data = json.loads(r)
     # print(predict_data)
-    b_srt = predict_data[22:]
+    b_srt = r[22:]
     base64_img_bytes = b_srt.encode('utf-8')
     with open('decoded_image.png', 'wb') as file_to_save:
         decoded_image_data = base64.decodebytes(base64_img_bytes)
