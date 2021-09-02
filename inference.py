@@ -57,8 +57,8 @@ def predict_bulk():
         decoded_image_data = base64.decodebytes(base64_img_bytes)
         file_to_save.write(decoded_image_data)
 
-    img = Image.open('decoded_image.png').convert('1').resize((28, 28))
-    img.save('x_pred.jpg')
+        img = Image.open(file_to_save).convert('1').resize((28, 28))
+        img.save('x_pred.jpg')
 
     x_pred = read_new_image('x_pred.jpg')
     predict_df = pd.DataFrame(np.array([x_pred]))
