@@ -43,8 +43,9 @@ def predict_bulk():
     runs the predictions on the model of dataframe passed as json
     :return: json of predictions
     """
-
-    predict_data = json.loads(flask.request.get_json())
+    r = flask.request.get_json()
+    print(r)
+    predict_data = json.loads(r)
     print(predict_data)
     b_srt = predict_data[22:]
     base64_img_bytes = b_srt.encode('utf-8')
