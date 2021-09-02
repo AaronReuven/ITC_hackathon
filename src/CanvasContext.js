@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
 import Axios from "axios";
+import axios from "axios";
 
 const CanvasContext = React.createContext();
 
@@ -8,6 +9,7 @@ export const CanvasProvider = ({ children }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [mousePosition, setMousePosition] = useState("");
+  const [picture, setPicture] = useState("");
 
   const prepareCanvas = () => {
     const canvas = canvasRef.current;
@@ -44,17 +46,7 @@ export const CanvasProvider = ({ children }) => {
     contextRef.current.lineTo(offsetX, offsetY);
     contextRef.current.stroke();
     contextRef.current.stroke();
-
-    setMousePosition(nativeEvent);
   };
-
-  useEffect(async () => {
-    let response = await Axios.post("http://localhost:3002/postCoordinates", {
-      X: mousePosition.offsetX,
-      Y: mousePosition.offsetY,
-    });
-    console.log(response);
-  }, [mousePosition]);
 
   const clearCanvas = () => {
     const canvas = canvasRef.current;
@@ -63,6 +55,21 @@ export const CanvasProvider = ({ children }) => {
     context.fillRect(0, 0, canvas.width, canvas.height);
   };
 
+  const postDrawing = async () => {
+    try {
+      const image = new Image();
+      image.src = await canvasRef.current.toDataURL();
+      let photo = image.src.slice(22);
+      console.log(photo);
+
+      const response = await axios.post(
+        "https://itc-hackathon.herokuapp.com/predict_drawing?b_str=", photo
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <CanvasContext.Provider
       value={{
@@ -73,6 +80,7 @@ export const CanvasProvider = ({ children }) => {
         finishDrawing,
         clearCanvas,
         draw,
+        postDrawing,
       }}
     >
       {children}
