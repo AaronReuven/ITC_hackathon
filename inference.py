@@ -1,14 +1,24 @@
+import base64
 import pickle
 import flask
 import os
 # from boto3.session import Session
 import boto3
+import numpy as np
+
 from configurations.config import *
 import pandas as pd
 from flask import Flask
 import json
+from PIL import Image
+import skimage
 
 app = Flask(__name__)
+
+
+def read_new_image(image_file_name):
+    image = skimage.io.imread(image_file_name)
+    return image
 
 
 def read_model(file):
@@ -17,14 +27,8 @@ def read_model(file):
     :param file: file to read the model from
     :return: trained model from file
     """
-    # print('Downloading model')
-    # if not os.path.exists(DOWNLOAD_MODEL_PATH):
-    #     os.mkdir(DOWNLOAD_MODEL_PATH)
-    # s3 = boto3.resource('s3', aws_access_key_id=ACCESS_ID, aws_secret_access_key=ACCESS_KEY)
-    # s3.meta.client.download_file(DRAW_BUCKET, S3_MODEL_FILE, os.path.abspath(DOWNLOAD_MODEL_PATH) + '/' + S3_MODEL_FILE)
-    # print('finished downloading')
+
     model = None
-    # with open(os.path.abspath(DOWNLOAD_MODEL_PATH) + '/' + S3_MODEL_FILE, 'rb') as f:
     with open(file, 'rb') as f:
         model = pickle.load(f)
     return model
@@ -42,9 +46,20 @@ def predict_bulk():
     # if 'model' not in globals():
     #     model = read_model(os.path.abspath(MODEL_FILE))
     predict_data = json.loads(flask.request.get_json())
+    b_srt = predict_data[22:]
+    base64_img_bytes = b_srt.encode('utf-8')
+    with open('decoded_image.png', 'wb') as file_to_save:
+        decoded_image_data = base64.decodebytes(base64_img_bytes)
+        file_to_save.write(decoded_image_data)
+
+    img = Image.open('decoded_image.png').convert('1').resize((64, 64))
+    img.save('x_pred.jpg')
+
+    x_pred = read_new_image('x_pred.jpg')
+    # predict_data = json.loads(flask.request.get_json())
     # return predict_data
     # return 'can load'
-    predict_df = pd.DataFrame(predict_data)
+    predict_df = pd.DataFrame(np.array([x_pred]))
     results = model.predict_proba(predict_df)
     result = {RESULT_JSON_TAG: results.tolist()}
     return flask.jsonify(result)
