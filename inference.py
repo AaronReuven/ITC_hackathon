@@ -48,18 +48,19 @@ def predict_bulk():
     runs the predictions on the model of dataframe passed as json
     :return: json of predictions
     """
-    r = flask.request.args.get('b_str')
+    image_b64 = flask.request.args.get('b_str')
     # print(r)
     # predict_data = json.loads(r)
     # print(predict_data)
     # b_srt = r[22:]
-    base64_img_bytes = r.encode('utf-8')
+    # base64_img_bytes = r.encode('utf-8')
+    new_image = Image.open(BytesIO(base64.b64decode(image_b64))).convert('1').resize((28, 28))
     # with open('decoded_image.png', 'wb') as file_to_save:
-    decoded_image_data = base64.b64decode(base64_img_bytes)
+    # decoded_image_data = base64.b64decode(base64_img_bytes)
         # file_to_save.write(decoded_image_data)
     # Image.open(BytesIO(decoded_image_data))
-    img = Image.open(BytesIO(decoded_image_data)).convert('1').resize((28, 28))
-    img.save('x_pred.jpg')
+    # img = Image.open(BytesIO(decoded_image_data)).convert('1').resize((28, 28))
+    new_image.save('x_pred.jpg')
 
     x_pred = read_new_image('x_pred.jpg')
     predict_df = pd.DataFrame(np.array([x_pred]))
