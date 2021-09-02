@@ -43,23 +43,23 @@ def predict_bulk():
     runs the predictions on the model of dataframe passed as json
     :return: json of predictions
     """
-    # if 'model' not in globals():
-    #     model = read_model(os.path.abspath(MODEL_FILE))
-    predict_data = json.loads(flask.request.get_json())
-    b_srt = predict_data[22:]
-    base64_img_bytes = b_srt.encode('utf-8')
-    with open('decoded_image.png', 'wb') as file_to_save:
-        decoded_image_data = base64.decodebytes(base64_img_bytes)
-        file_to_save.write(decoded_image_data)
 
-    img = Image.open('decoded_image.png').convert('1').resize((28, 28))
-    img.save('x_pred.jpg')
-
-    x_pred = read_new_image('x_pred.jpg')
     # predict_data = json.loads(flask.request.get_json())
-    # return predict_data
-    # return 'can load'
-    predict_df = pd.DataFrame(np.array([x_pred]))
+    # b_srt = predict_data[22:]
+    # base64_img_bytes = b_srt.encode('utf-8')
+    # with open('decoded_image.png', 'wb') as file_to_save:
+    #     decoded_image_data = base64.decodebytes(base64_img_bytes)
+    #     file_to_save.write(decoded_image_data)
+    #
+    # img = Image.open('decoded_image.png').convert('1').resize((28, 28))
+    # img.save('x_pred.jpg')
+    #
+    # x_pred = read_new_image('x_pred.jpg')
+    # predict_df = pd.DataFrame(np.array([x_pred]))
+
+    r = flask.request.data
+    nparr = np.fromstring(r,np.uint8)
+    predict_df = pd.DataFrame(nparr)
     results = model.predict_proba(predict_df)
     result = {RESULT_JSON_TAG: results.tolist()}
     return flask.jsonify(result)
