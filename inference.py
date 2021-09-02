@@ -55,7 +55,7 @@ def predict_bulk():
     # b_srt = r[22:]
     base64_img_bytes = r.encode('utf-8')
     # with open('decoded_image.png', 'wb') as file_to_save:
-    decoded_image_data = base64.decodebytes(base64_img_bytes)
+    decoded_image_data = base64.b64decode(base64_img_bytes)
         # file_to_save.write(decoded_image_data)
     # Image.open(BytesIO(decoded_image_data))
     img = Image.open(BytesIO(decoded_image_data)).convert('1').resize((28, 28))
