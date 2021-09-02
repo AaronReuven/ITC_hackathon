@@ -15,6 +15,7 @@ MODEL_FILE = 'model/draw_model.pkl'
 
 # REST API
 RESULT_JSON_TAG = 'result'
+URL_LOCAL = 'http://127.0.0.1:5000/predict_drawing'
 URL_BULK = 'https://itc-hackathon.herokuapp.com/predict_drawing/'
 URL_TEST = 'https://ec2-3-70-29-25.eu-central-1.compute.amazonaws.com/predict_drawing/'
 
