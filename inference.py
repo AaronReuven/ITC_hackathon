@@ -47,7 +47,7 @@ def predict_bulk():
     runs the predictions on the model of dataframe passed as json
     :return: json of predictions
     """
-    r = flask.request.get_data()
+    r = flask.request.args.get('b_str')
     # print(r)
     # predict_data = json.loads(r)
     # print(predict_data)
