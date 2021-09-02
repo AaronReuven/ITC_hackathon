@@ -13,6 +13,7 @@ from flask_cors import CORS, cross_origin
 import json
 from PIL import Image
 import skimage
+from io import BytesIO
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -53,11 +54,11 @@ def predict_bulk():
     # print(predict_data)
     # b_srt = r[22:]
     base64_img_bytes = r.encode('utf-8')
-    with open('decoded_image.png', 'wb') as file_to_save:
-        decoded_image_data = base64.decodebytes(base64_img_bytes)
-        file_to_save.write(decoded_image_data)
-
-    img = Image.open('decoded_image.png').convert('1').resize((28, 28))
+    # with open('decoded_image.png', 'wb') as file_to_save:
+    decoded_image_data = base64.decodebytes(base64_img_bytes)
+        # file_to_save.write(decoded_image_data)
+    # Image.open(BytesIO(decoded_image_data))
+    img = Image.open(BytesIO(decoded_image_data)).convert('1').resize((28, 28))
     img.save('x_pred.jpg')
 
     x_pred = read_new_image('x_pred.jpg')
